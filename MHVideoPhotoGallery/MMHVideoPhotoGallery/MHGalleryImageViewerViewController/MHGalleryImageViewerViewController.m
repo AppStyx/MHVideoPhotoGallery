@@ -283,6 +283,7 @@
                                              animated:YES];
     }else{
         UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[[(MHImageViewController*)self.pageViewController.viewControllers.firstObject imageView].image] applicationActivities:self.UICustomization.applicationActivities];
+        act.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypeAssignToContact, UIActivityTypePrint];
         [self presentViewController:act animated:YES completion:nil];
         
     }
