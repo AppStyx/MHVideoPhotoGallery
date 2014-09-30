@@ -1381,8 +1381,9 @@
     BOOL greaterThanOrEqualToiOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
     BOOL isLandscape = UIInterfaceOrientationIsLandscape(currentOrientation);
+    BOOL isPhone = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
 
-    if (greaterThanOrEqualToiOS8 && isLandscape) {
+    if (greaterThanOrEqualToiOS8 && isLandscape && isPhone) {
         alpha = 0;
     }
 
