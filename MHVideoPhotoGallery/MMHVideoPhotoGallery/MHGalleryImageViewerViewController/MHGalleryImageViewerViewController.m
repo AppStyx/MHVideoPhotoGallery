@@ -1363,9 +1363,11 @@
 
 -(void)changeUIForViewMode:(MHGalleryViewMode)viewMode{
     float alpha =0;
+    
     if (viewMode == MHGalleryViewModeImageViewerNavigationBarShown) {
-        alpha =1;
+        alpha= 1;
     }
+
     self.moviePlayer.backgroundView.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
     self.scrollView.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
     self.viewController.pageViewController.view.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
@@ -1375,6 +1377,15 @@
     
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
+
+    BOOL greaterThanOrEqualToiOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
+    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    BOOL isLandscape = UIInterfaceOrientationIsLandscape(currentOrientation);
+
+    if (greaterThanOrEqualToiOS8 && isLandscape) {
+        alpha = 0;
+    }
+
     MHStatusBar().alpha =alpha;
 }
 
