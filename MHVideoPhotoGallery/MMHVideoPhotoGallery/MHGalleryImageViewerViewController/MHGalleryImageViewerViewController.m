@@ -70,6 +70,7 @@
     }
     MHTransitionDismissMHGallery *dismissTransiton = [MHTransitionDismissMHGallery new];
     dismissTransiton.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    dismissTransiton.finishButtonAction = YES;
     imageViewer.interactiveTransition = dismissTransiton;
     
     MHGalleryController *galleryViewController = [self galleryViewController];
@@ -281,8 +282,7 @@
         [self.navigationController pushViewController:share
                                              animated:YES];
     }else{
-        UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[[(MHImageViewController*)self.pageViewController.viewControllers.firstObject imageView].image] applicationActivities:self.UICustomization.applicationActivities];
-        act.excludedActivityTypes = @[UIActivityTypeAddToReadingList, UIActivityTypeAssignToContact, UIActivityTypePrint];
+        UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[[(MHImageViewController*)self.pageViewController.viewControllers.firstObject imageView].image] applicationActivities:nil];
         [self presentViewController:act animated:YES completion:nil];
         
         if ([act respondsToSelector:@selector(popoverPresentationController)]) {
@@ -1363,11 +1363,9 @@
 
 -(void)changeUIForViewMode:(MHGalleryViewMode)viewMode{
     float alpha =0;
-    
     if (viewMode == MHGalleryViewModeImageViewerNavigationBarShown) {
-        alpha= 1;
+        alpha =1;
     }
-
     self.moviePlayer.backgroundView.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
     self.scrollView.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
     self.viewController.pageViewController.view.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
@@ -1377,17 +1375,14 @@
     
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
-
-    BOOL greaterThanOrEqualToiOS8 = ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending);
-    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
-    BOOL isLandscape = UIInterfaceOrientationIsLandscape(currentOrientation);
-    BOOL isPhone = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
-
-    if (greaterThanOrEqualToiOS8 && isLandscape && isPhone) {
-        alpha = 0;
+    
+    if (MHGalleryOSVersion < 8.0) {
+        MHStatusBar().alpha = alpha;
+    }else{
+        if (UIApplication.sharedApplication.statusBarOrientation == UIDeviceOrientationPortrait || UIApplication.sharedApplication.statusBarOrientation == UIDeviceOrientationPortraitUpsideDown) {
+            MHStatusBar().alpha = alpha;
+        }
     }
-
-    MHStatusBar().alpha =alpha;
 }
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
@@ -1499,6 +1494,8 @@
     self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.scrollView.zoomScale, self.view.bounds.size.height*self.scrollView.zoomScale);
     self.imageView.frame =CGRectMake(0,0 , self.scrollView.contentSize.width,self.scrollView.contentSize.height);
+    
+
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
