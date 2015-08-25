@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 @property (nonatomic)        MHBackButtonState backButtonState; //Default MHBackButtonStateWithBackArrow
 @property (nonatomic,strong) NSArray *applicationActivities; // Used if showMHShareViewInsteadOfActivityViewController is set to NO
 
+@property (nonatomic,strong) UIBarButtonItem *customBarButtonItem; //A optional UIBarButtonItem displayed in the lower right corner. Default nil
+
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
 
