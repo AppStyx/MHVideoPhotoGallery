@@ -111,6 +111,7 @@
         MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)self viewControllers].lastObject;
         imageViewer.dismissFromImageView = dismissImageView;
     }
+	MHStatusBar().alpha = 1.f;
     [self dismissViewControllerAnimated:flag completion:completion];
 }
 
