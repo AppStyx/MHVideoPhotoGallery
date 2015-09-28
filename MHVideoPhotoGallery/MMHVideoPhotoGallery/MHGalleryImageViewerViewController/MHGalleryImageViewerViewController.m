@@ -848,7 +848,13 @@
         imageTap.numberOfTapsRequired =1;
         
         [self.imageView addGestureRecognizer:doubleTap];
-        
+		
+		
+		UILongPressGestureRecognizer *imageLongPress =[UILongPressGestureRecognizer.alloc initWithTarget:self action:@selector(handleLongPress:)];
+		
+		[self.imageView addGestureRecognizer:imageLongPress];
+		
+		
         self.pan.delegate = self;
         
         if(self.viewController.transitionCustomization.interactiveDismiss){
@@ -1442,6 +1448,17 @@
         alpha = 0;
     }
     MHStatusBar().alpha = alpha;
+}
+
+- (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
+	if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+		
+		if([[self.viewController galleryViewController].galleryDelegate respondsToSelector:@selector(galleryController:longPressOnIndex:)]){
+			[[self.viewController galleryViewController].galleryDelegate galleryController:[self.viewController galleryViewController]
+																		  longPressOnIndex:self.pageIndex];
+		}
+		
+	}
 }
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
