@@ -18,7 +18,7 @@
 @protocol MHGalleryDelegate<NSObject>
 @optional
 -(void)galleryController:(MHGalleryController*)galleryController didShowIndex:(NSInteger)index;
--(void)galleryController:(MHGalleryController*)galleryController longPressOnIndex:(NSInteger)index;
+-(void)galleryController:(MHGalleryController*)galleryController longPressOnImage:(UIImage*)image;
 @end
 
 @protocol MHGalleryDataSource<NSObject>

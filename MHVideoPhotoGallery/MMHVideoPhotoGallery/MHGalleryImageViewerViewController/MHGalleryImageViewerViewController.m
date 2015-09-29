@@ -1451,11 +1451,11 @@
 }
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer{
-	if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+	if (gestureRecognizer.state == UIGestureRecognizerStateBegan && self.imageView.image) {
 		
-		if([[self.viewController galleryViewController].galleryDelegate respondsToSelector:@selector(galleryController:longPressOnIndex:)]){
+		if([[self.viewController galleryViewController].galleryDelegate respondsToSelector:@selector(galleryController:longPressOnImage:)]){
 			[[self.viewController galleryViewController].galleryDelegate galleryController:[self.viewController galleryViewController]
-																		  longPressOnIndex:self.pageIndex];
+																		  longPressOnImage:self.imageView.image];
 		}
 		
 	}
